@@ -1,64 +1,45 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-file-heading">Create or edit a File</h2>
-            <div>
-                <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!file.id">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id"
-                        [(ngModel)]="file.id" readonly />
+        <div>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="upload-container">
+                <div class="upload-header">
+                    <h2>Upload file/files</h2>
+                    <button type="button" class="btn cancel-button"  (click)="previousState()">
+                        <fa-icon [icon]="'times'">
+                    </button>        
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_title">Title</label>
-                    <input type="text" class="form-control" name="title" id="field_title"
-                        [(ngModel)]="file.title" required/>
-                    <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.title?.errors?.required">
-                        This field is required.
-                        </small>
+                <div class="upload-content">
+                    <div class="single-upload">
+                        <h3>Upload Single File</h3>
+                        <form id="singleUploadForm" name="singleUploadForm" (ngSubmit)="saveSingleFile()" #editSingleFileForm="ngForm">
+                            <input type="text" class="file-input" name="description" id="singleFileUploadInput_description"
+                                [(ngModel)]="singleFileDescription" placeholder="Description"/>
+                            <input id="singleFileUploadInput" type="file" name="file" class="file-input"
+                                (change)="singleFileEvent($event)" required />
+                            <button type="submit" class="primary submit-btn" [disabled]="editSingleFileForm.form.invalid || isSaving">Submit</button>
+                        </form>
+                        <div class="upload-response">
+                            <div id="singleFileUploadError"></div>
+                            <div id="singleFileUploadSuccess"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_description">Description</label>
-                    <input type="text" class="form-control" name="description" id="field_description"
-                        [(ngModel)]="file.description" />
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_creationDate">Creation Date</label>
-                    <div class="d-flex">
-                        <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" [(ngModel)]="creationDate" placeholder="YYYY-MM-DD HH:mm"
-                        required/>
+                    <div class="multiple-upload">
+                        <h3>Upload Multiple Files</h3>
+                        <form id="multipleUploadForm" name="multipleUploadForm" (ngSubmit)="saveMultipleFile()" #editMultipleFileForm="ngForm">
+                            <input type="text" class="file-input" name="description" id="multipleFileUploadInput_description"
+                                [(ngModel)]="multipleFileDescription" placeholder="Description"/>
+                            <input id="multipleFileUploadInput" type="file" name="files" class="file-input" 
+                                (change)="multipleFileEvent($event)" multiple required />
+                            <button type="submit" class="primary submit-btn" [disabled]="editMultipleFileForm.form.invalid || isSaving">Submit</button>
+                        </form>
+                        <div class="upload-response">
+                            <div id="multipleFileUploadError"></div>
+                            <div id="multipleFileUploadSuccess"></div>
+                        </div>
                     </div>
-                    <div [hidden]="!(editForm.controls.creationDate?.dirty && editForm.controls.creationDate?.invalid)">
-                        <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.creationDate?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.creationDate?.errors?.ZonedDateTimelocal">
-                            This field should be a date and time.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_user">User</label>
-                    <select class="form-control" id="field_user" name="user" [(ngModel)]="file.userId" >
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
-                    </select>
                 </div>
             </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

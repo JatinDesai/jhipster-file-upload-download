@@ -11,16 +11,16 @@ public class FileDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private String title;
 
     private String description;
 
-    @NotNull
     private ZonedDateTime creationDate;
 
 
     private Long userId;
+
+    private String userName;
 
     public Long getId() {
         return id;
@@ -60,6 +60,14 @@ public class FileDTO implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

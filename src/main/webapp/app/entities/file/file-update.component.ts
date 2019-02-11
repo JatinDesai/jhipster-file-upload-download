@@ -16,6 +16,10 @@ import { IUser, UserService } from 'app/core';
 })
 export class FileUpdateComponent implements OnInit {
     file: IFile;
+    singleFile: File;
+    singleFileDescription: string;
+    multipleFiles: File[] = [];
+    multipleFileDescription: string;
     isSaving: boolean;
 
     users: IUser[];
@@ -47,14 +51,33 @@ export class FileUpdateComponent implements OnInit {
         window.history.back();
     }
 
-    save() {
-        this.isSaving = true;
-        this.file.creationDate = this.creationDate != null ? moment(this.creationDate, DATE_TIME_FORMAT) : null;
-        if (this.file.id !== undefined) {
-            this.subscribeToSaveResponse(this.fileService.update(this.file));
-        } else {
-            this.subscribeToSaveResponse(this.fileService.create(this.file));
+    public singleFileEvent($event) {
+        this.singleFile = $event.target.files[0];
+    }
+
+    public multipleFileEvent($event) {
+        const files = $event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            this.multipleFiles.push(files[i]);
         }
+    }
+
+    saveSingleFile() {
+        this.isSaving = true;
+        const formData = new FormData();
+        formData.append('file', this.singleFile, this.singleFile.name);
+        formData.append('description', this.singleFileDescription);
+        this.subscribeToSaveResponse(this.fileService.create(formData));
+    }
+
+    saveMultipleFile() {
+        this.isSaving = true;
+        const formData = new FormData();
+        for (let i = 0; i < this.multipleFiles.length; i++) {
+            formData.append('files', this.multipleFiles[i], this.multipleFiles[i]['name']);
+        }
+        formData.append('description', this.multipleFileDescription);
+        this.subscribeToSaveResponse(this.fileService.createFiles(formData));
     }
 
     protected subscribeToSaveResponse(result: Observable<HttpResponse<IFile>>) {

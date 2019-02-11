@@ -2,8 +2,10 @@ package com.ab.test.service;
 
 import com.ab.test.service.dto.FileDTO;
 
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -15,10 +17,12 @@ public interface FileService {
     /**
      * Save a file.
      *
-     * @param fileDTO the entity to save
+     *
+     * @param file
+     * @param description
      * @return the persisted entity
      */
-    FileDTO save(FileDTO fileDTO);
+    FileDTO save(MultipartFile file, String description);
 
     /**
      * Get all the files.
@@ -43,4 +47,6 @@ public interface FileService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    Resource loadFileAsResource(Long id);
 }

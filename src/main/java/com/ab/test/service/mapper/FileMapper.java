@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface FileMapper extends EntityMapper<FileDTO, File> {
 
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.firstName", target = "userName")
     FileDTO toDto(File file);
 
     @Mapping(source = "userId", target = "user")

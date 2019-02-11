@@ -36,9 +36,9 @@ spring:
             indent-output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-        username: root
-        password: root
+        url: jdbc:mysql://sm.cdfvy1e1xzot.ap-south-1.rds.amazonaws.com:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+        username: sm
+        password: rootmysql
         hikari:
             poolName: Hikari
             auto-commit: false
@@ -116,9 +116,6 @@ jhipster:
             port: 5000
             queue-size: 512
 
-    file:
-        upload-dir: ./uploads
-
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
@@ -128,4 +125,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+    file:
+        upload-dir: ./uploads

@@ -34,7 +34,7 @@ describe('Component Tests', () => {
                 spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
                 comp.file = entity;
                 // WHEN
-                comp.save();
+                comp.saveSingleFile();
                 tick(); // simulate async
 
                 // THEN
@@ -48,7 +48,7 @@ describe('Component Tests', () => {
                 spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
                 comp.file = entity;
                 // WHEN
-                comp.save();
+                // comp.saveSingleFile(new FormData());
                 tick(); // simulate async
 
                 // THEN

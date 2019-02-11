@@ -10,6 +10,7 @@ import { AccountService } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { FileService } from './file.service';
+import * as FileSaver from 'file-saver';
 
 @Component({
     selector: 'jhi-file',
@@ -45,6 +46,13 @@ export class FileComponent implements OnInit, OnDestroy {
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
+        });
+    }
+
+    download(id: number, title: string) {
+        this.fileService.download(id).subscribe(response => {
+            const file = new Blob([response]);
+            FileSaver.saveAs(file, title);
         });
     }
 

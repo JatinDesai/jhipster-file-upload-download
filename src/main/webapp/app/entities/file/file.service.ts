@@ -18,10 +18,15 @@ export class FileService {
 
     constructor(protected http: HttpClient) {}
 
-    create(file: IFile): Observable<EntityResponseType> {
-        const copy = this.convertDateFromClient(file);
+    create(formData): Observable<EntityResponseType> {
         return this.http
-            .post<IFile>(this.resourceUrl, copy, { observe: 'response' })
+            .post<IFile>(`${this.resourceUrl}/single-file`, formData, { observe: 'response' })
+            .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    createFiles(formData): Observable<EntityResponseType> {
+        return this.http
+            .post<IFile>(`${this.resourceUrl}/multiple-files`, formData, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
     }
 
@@ -36,6 +41,14 @@ export class FileService {
         return this.http
             .get<IFile>(`${this.resourceUrl}/${id}`, { observe: 'response' })
             .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    }
+
+    download(id: number): Observable<any> {
+        const url = `${this.resourceUrl}/download/${id}`;
+        const httpOptions = {
+            responseType: 'arraybuffer' as 'json'
+        };
+        return this.http.get<any>(url, httpOptions);
     }
 
     query(req?: any): Observable<EntityArrayResponseType> {
